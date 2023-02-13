@@ -6,6 +6,7 @@ require 'json'
 podfile_properties = JSON.parse(File.read(File.join(__dir__, 'Podfile.properties.json'))) rescue {}
 
 platform :ios, podfile_properties['ios.deploymentTarget'] || '13.0'
+use_frameworks!
 install! 'cocoapods',
   :deterministic_uuids => false
 
@@ -14,7 +15,14 @@ target 'myapp' do
   config = use_native_modules!
 
   use_frameworks! :linkage => podfile_properties['ios.useFrameworks'].to_sym if podfile_properties['ios.useFrameworks']
-
+  pod 'Amplify'
+  pod 'AmplifyPlugins/AWSCognitoAuthPlugin'
+  pod 'AmplifyPlugins/AWSAPIPlugin'
+  pod 'AmplifyPlugins/AWSS3StoragePlugin'
+  pod 'AWSAPIGateway'
+  pod 'GoogleMLKit/PoseDetection', '3.2.0'
+  pod 'GoogleMLKit/PoseDetectionAccurate', '3.2.0'
+  pod 'SWCompression/TAR', '4.8.3'
   # Flags change depending on the env values.
   flags = get_default_flags()
 
